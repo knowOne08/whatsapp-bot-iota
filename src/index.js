@@ -11,7 +11,7 @@ dotenv.config();
 
 export const client = new Client({
     puppeteer: {
-        headless: false,
+        headless: true,
 		args: ['--no-sandbox'],
         authStrategy: new LocalAuth()
 	}
@@ -23,7 +23,6 @@ client.on('qr', async (qr) => {
     qrUrl = await qrcode.toDataURL(qr)
 });
 
-client.on('')
 
 client.on('ready', () => {
     console.log('Client is ready!');
