@@ -14,8 +14,8 @@ export const client = new Client({
     puppeteer: {
         headless: true,
 		args: ['--no-sandbox'],
-        authStrategy: new LocalAuth()
-	}
+	},
+    authStrategy: new LocalAuth()
 });
 
 export let qrUrl = null
