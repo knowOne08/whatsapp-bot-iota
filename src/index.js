@@ -5,6 +5,7 @@ import Replicate from 'replicate';
 import dotenv from 'dotenv';
 import axios from 'axios';
 import fs from "fs"
+import { app } from './server';
 
 dotenv.config();
 
@@ -29,6 +30,11 @@ client.on('ready', () => {
 
  
 client.initialize();
+
+//To Serve Qr code
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
 
 client.on('message', async msg => {
 	if(msg.body === '!ping') {
