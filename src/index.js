@@ -32,7 +32,7 @@ client.on('ready', () => {
 client.initialize();
 
 //To Serve Qr code
-app.listen(3000, () => {
+app.listen(3002, () => {
     console.log(`Server is running on port 3000`);
 });
 
