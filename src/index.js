@@ -70,30 +70,48 @@ let productName = '';
 let productImage = '';
 let productTheme = '';
 const messageResponse = async (msg) => {
-    // console.log(msg.id);
     const user = msg.author;
     let chatId = msg.from;
-    const greetingMsg = `Basic Greeting Message`;
-    const sendImageMsg = `Please Send the Image`;
-    const askNameMsg = `Please write the name of the product`;
-    const processingMsg = `Please wait while image is being processed`
-    const themeMsg = `Please chose theme
-1. Festival
-2. Vintage
-3. Street City
-4. Solid Color
-5. Beach
-
-Please enter the number of your option
-`
-    // const chat = await msg.getChat()
-    // const messages  = await chat.fetchMessages({fromMe:true});
+    const greetingMsg =
+`🌟 *Welcome to Snapcraft Bot!* 🌟
     
-    // const userLastMessage = messages[messages.length - 1]?.body || "no last message"
-    // console.log(userLastMessage.body)
+Hello there! I'm Snapcraft, your AI-enhanced image bot. 🤖✨
+`;
+    
+    const sendImageMsg = 
+`📷 *Send Image*
+    
+Ready to enhance your image! 🚀 Please send the image you'd like me to work on, and let the magic begin! ✨
+`;
+    
+    const askNameMsg = 
+`🤖 *Send Product Name*
+    
+Before we start, could you please provide the name of the product or describe what you're looking for? It will help personalize the enhancements. 🎨✨
+`;
+    
+    const processingMsg = 
+`⌛ *Processing Image*
+    
+Great choice! Sit tight while I work on enhancing your image. 🛠️✨ This might take a moment, but the results will be worth it! 🌈
+`;
+    
+    const themeMsg = 
+`🎨 *Choose Theme*
+    
+Time to add some style! 🌟 Choose a theme for your enhanced image:
+    
+1. Festival 🎉
+2. Vintage 📽️
+3. Street City 🏙️
+4. Solid Color 🌈
+5. Beach 🏖️
+    
+Please enter the number of your preferred option:
+`;
     
 
-    const downloadMedia = async (msg) =>{  
+        const downloadMedia = async (msg) =>{  
         return await msg.downloadMedia();
     }
 
@@ -161,8 +179,8 @@ const createImage = async (image, msg, productName) => {
             {
                 input: {
                     image_path: dataURI,
-                    // prompt: `${productName || "Product" } photography, outdoor setting, natural lighting, close-up shot, multiple angles, maintain aspect ratio, maintain height, maintain shadow`,
-                    prompt: `${productName || "Product" }`,
+                    prompt: `${productName || "Product" } photography, outdoor setting, natural lighting, close-up shot, multiple angles, maintain aspect ratio, maintain height, maintain shadow`,
+                    // prompt: `${productName || "Product" }`,
                     negative_prompt: "illustration, 3d, sepia, painting, cartoons, sketch, (worst quality:2),no distracting elements in the background",
                     image_num: 1,
                     api_key: process.env.OPENAI_API
