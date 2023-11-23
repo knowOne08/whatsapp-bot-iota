@@ -14,7 +14,29 @@ dotenv.config();
 export const client = new Client({
     puppeteer: {
         headless: true,
-		args: ['--no-sandbox'],
+		args: [
+            '--log-level=3', // fatal only
+            '--start-maximized',
+            '--no-default-browser-check',
+            '--disable-infobars', 
+            '--disable-web-security',
+            '--disable-site-isolation-trials',
+            '--no-experiments',
+            '--ignore-gpu-blacklist',
+            '--ignore-certificate-errors',
+            '--ignore-certificate-errors-spki-list',
+            '--disable-gpu',
+            '--disable-extensions',
+            '--disable-default-apps',
+            '--enable-features=NetworkService',
+            '--disable-setuid-sandbox',
+            '--no-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process'
+              ],
 	},
     authStrategy: new LocalAuth()
 });
@@ -33,7 +55,7 @@ client.on('ready', () => {
 client.initialize();
 
 //To Serve Qr code
-app.listen(3000, () => {
+app.listen(3002, () => {
     console.log(`Server is running on port 3000`);
 });
 
