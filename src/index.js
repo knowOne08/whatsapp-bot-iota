@@ -4,9 +4,7 @@ import qrcode from "qrcode";
 import Replicate from 'replicate';
 import dotenv from 'dotenv';
 import axios from 'axios';
-import fs from "fs"
 import { app } from './server';
-import { channel } from 'diagnostics_channel';
 import { beachPrompts, festivalPrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt';
 
 dotenv.config();
@@ -151,7 +149,7 @@ Please enter the number of your preferred option:
         productTheme = getRandomTheme(productTheme)
     
         // console.log(botLastMessage.body)
-        createImage(productImage, msg,productName);
+        createImage(productImage, msg,productName,productTheme);
         console.log(productImage,productName,productTheme)
         client.sendMessage(chatId,processingMsg).then((res)=> botLastMessage = res)
     } 
@@ -179,7 +177,7 @@ const createImage = async (image, msg, productName) => {
             {
                 input: {
                     image_path: dataURI,
-                    prompt: `${productName || "Product" } photography, outdoor setting, natural lighting, close-up shot, multiple angles, maintain aspect ratio, maintain height, maintain shadow`,
+                    prompt: `${productName || "Product"} + ${productTheme} photography, outdoor setting, natural lighting, close-up shot, multiple angles, maintain aspect ratio, maintain height, maintain shadow`,
                     // prompt: `${productName || "Product" }`,
                     negative_prompt: "illustration, 3d, sepia, painting, cartoons, sketch, (worst quality:2),no distracting elements in the background",
                     image_num: 1,
