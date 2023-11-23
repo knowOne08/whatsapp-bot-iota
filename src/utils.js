@@ -1,4 +1,4 @@
-import { qrUrl } from "."
+import { qrUrl } from "./index.js"
 
 export const serverQrCode = (req,res) => {
     if(qrUrl){

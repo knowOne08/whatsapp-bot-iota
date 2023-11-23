@@ -1,5 +1,5 @@
 import express from 'express';
-import { serverQrCode } from './utils';
+import { serverQrCode } from './utils.js';
 
 
 export const app = express();
