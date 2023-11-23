@@ -7,6 +7,7 @@ import axios from 'axios';
 import fs from "fs"
 import { app } from './server';
 import { channel } from 'diagnostics_channel';
+import { beachPrompts, festivalPrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt';
 
 dotenv.config();
 
@@ -62,45 +63,86 @@ client.on('message', async msg => {
     messageResponse(msg);
 });
 
+let userLastMessage = {};
+let botLastMessage = {};
+
 let productName = '';
 let productImage = '';
+let productTheme = '';
 const messageResponse = async (msg) => {
+    // console.log(msg.id);
     const user = msg.author;
     let chatId = msg.from;
     const greetingMsg = `Basic Greeting Message`;
     const sendImageMsg = `Please Send the Image`;
     const askNameMsg = `Please write the name of the product`;
     const processingMsg = `Please wait while image is being processed`
+    const themeMsg = `Please chose theme
+1. Festival
+2. Vintage
+3. Street City
+4. Solid Color
+5. Beach
 
-    const chat = await msg.getChat()
-    const messages  = await chat.fetchMessages({fromMe:true});
+Please enter the number of your option
+`
+    // const chat = await msg.getChat()
+    // const messages  = await chat.fetchMessages({fromMe:true});
     
-    const lastMessage = messages[messages.length - 1].body
-    console.log(lastMessage)
+    // const userLastMessage = messages[messages.length - 1]?.body || "no last message"
+    // console.log(userLastMessage.body)
     
 
     const downloadMedia = async (msg) =>{  
-        if (msg.type == 'image') {
-            return await msg.downloadMedia();
+        return await msg.downloadMedia();
+    }
+
+    const getRandomTheme = (productTheme) => {
+        switch (productTheme) {
+            case '1':
+                return festivalPrompts[Math.floor(Math.random() * festivalPrompts.length)];
+            case '2':
+                return vintageClassicPrompts[Math.floor(Math.random() * vintageClassicPrompts.length)];
+            case '3':
+                return streetCityPrompts[Math.floor(Math.random() * streetCityPrompts.length)];
+            case '4':
+                return solidColorPrompts[Math.floor(Math.random() * solidColorPrompts.length)];
+            case '5':
+                return beachPrompts[Math.floor(Math.random() * beachPrompts.length)];
+            default:
+                return 'Design a backdrop that enhances the allure of showcased clothing item';
         }
     }
-
-    if (msg.body.toLowerCase().includes('service')) {
+    
+    if(userLastMessage.body == undefined || msg.body.toLowerCase().includes('service')){
         client.sendMessage(chatId,greetingMsg)
-        client.sendMessage(chatId,sendImageMsg)
-    } 
-    else if (lastMessage.includes("Image")) {
+        client.sendMessage(chatId,sendImageMsg).then((res)=> botLastMessage = res)
+    }
+    else if((msg.type == 'image' && botLastMessage.body.includes("Image")) || msg.type == "image"){
         productImage = await downloadMedia(msg)
-        client.sendMessage(chatId,askNameMsg)
-    } 
-    else if(lastMessage.includes("name")){
+        client.sendMessage(chatId,askNameMsg).then((res) => botLastMessage = res);
+    }
+    else if(userLastMessage.type == 'image' && botLastMessage.body.includes('name')){
         productName = msg.body
-        console.log(productImage);
-        createImage(productImage,msg,productName);
-        client.sendMessage(chatId,processingMsg)
+        client.sendMessage(chatId,themeMsg).then((res)=> botLastMessage = res)
+    } 
+    else if(msg.type == 'chat' && botLastMessage.body.includes('theme')){
+        console.log(msg.type);
+        productTheme = msg.body
+
+        productTheme = getRandomTheme(productTheme)
+    
+        // console.log(botLastMessage.body)
+        createImage(productImage, msg,productName);
+        console.log(productImage,productName,productTheme)
+        client.sendMessage(chatId,processingMsg).then((res)=> botLastMessage = res)
+    } 
+    else {
+        client.sendMessage(chatId, "Some problem occured restarting")
+        client.sendMessage(chatId, sendImageMsg).then((res) => botLastMessage = res)
     }
 
-    
+    userLastMessage = msg;
 
 };
 
@@ -113,16 +155,17 @@ const createImage = async (image, msg, productName) => {
         const base64Image = image.data.toString("base64");
         const mimeType = image.mimetype
         const dataURI = `data:${mimeType};base64,${base64Image}`;
-        // console.log(process.env.OPENAI_API)
+        console.log(productTheme)
         const output = await replicate.run(
             "logerzhu/ad-inpaint:b1c17d148455c1fda435ababe9ab1e03bc0d917cc3cf4251916f22c45c83c7df",
             {
                 input: {
                     image_path: dataURI,
-                    prompt: `${productName || "Product" } photography, outdoor setting, natural lighting, close-up shot, multiple angles, maintain aspect ratio, maintain height, maintain shadow`,
+                    // prompt: `${productName || "Product" } photography, outdoor setting, natural lighting, close-up shot, multiple angles, maintain aspect ratio, maintain height, maintain shadow`,
+                    prompt: `${productName || "Product" }`,
                     negative_prompt: "illustration, 3d, sepia, painting, cartoons, sketch, (worst quality:2),no distracting elements in the background",
                     image_num: 1,
-                    // api_key: process.env.OPENAI_API
+                    api_key: process.env.OPENAI_API
                 },
             }
         );
