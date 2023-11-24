@@ -112,3 +112,95 @@ export const beachPrompts = [
     "Beachgoers enjoying a game of volleyball.",
     "Seagulls soaring above a peaceful stretch of beach."
 ];
+
+export const holidayPrompts = [
+    "concrete surface, white and grey modern elegant minimalistic christmas decorations, editorial photo, behance, above shot, flatlay",
+    "fresh snow surface, white fluffy texture, silver christmas decor, festive, editorial photo, behance, flatlay, above shot",
+    "crumpled silk surrounded by elegant christmas decorations, festive, minimalistic, ascetic elegance, flatlay, above shot",
+    "empty surface, surrounded by sparse ascetic christmas festive decor, editorial photo, behance",
+    "concrete surface, white and grey modern elegant minimalistic christmas decorations, editorial photo, behance, flatlay, above shot",
+    "fresh snow surface, white fluffy texture, silver christmas decor, festive, editorial photo, behance, above shot, flatlay",
+    "marble cylindrical platform in front of christmas tree with a twinkle night decor ornaments lights, festive, elegant, gold, editorial photo, bokeh shot",
+    "empty metallic pedestal, surrounded by christmas decorations, elegant festive, editorial photo, bokeh shot",
+    "white marble slab cylindrical platform in front of christmas tree with a twinkle night decor ornaments lights, festive, elegant, gold, editorial photo, bokeh shot",
+    "wooden tabletop with a christmas tree in the background, festive decor, editorial photo, bokeh shot"    
+]
+
+export const flatLaysPrompts = [
+    "detailed photo of an object on wavy silk, soft light and shadows, high quality, realistic, flatlay, above shot",
+    "linen fabric surface, soft warm morning light, above shot, editorial photo, behance, above shot, flatlay",
+    "sandy beach surface, above shot, editorial photo, behance, flatlay",
+    "shiny red silk surface, above shot, editorial photo, behance, flatlay",
+    "leaves and branches on sand, above shot, behance, professional product photography, flatlay",
+    "flatlay photo, leaves and branches on velvet, behance, professional product photography, above shot",
+    "beach spa scene, editorial photo, flatlay composition, behance, professional product photography, above shot",
+    "clay spa scene, editorial photo, flatlay composition, behance, professional product photography, above shot",
+    "beach spa scene, editorial photo, flatlay composition, behance, professional product photography, above shot",
+    "velvet pillow over metallic stones, behance, above shot, flatlay",
+    "limestone slab over beach pebbles, behance, flatlay, above shot",
+    "velvet pillow over stones, behance, editorial photo, flatlay, above shot",
+    "metallic platter over rough stones, behance, flatlay, above shot",
+    "pearl iridescent slab over bright pebbles, behance, flatlay, above shot",
+    "linen fabric surface, soft warm morning light, above shot, flatlay, editorial photo, behance",
+    "wavy silk, ambient soft light, editorial photo, above shot, flatlay, behance",
+    "silk drapes, ethereal, pastel, morning light, above shot, flatlay, editorial photo, behance",
+    "rough grey stones, granite pebble texture, low key, editorial photo, flatlay, above shot",
+    "sandstone pebbles on sand, matt rough stone surface, warm soft light, above shot, flatlay",
+    "rough grey stones, granite pebble texture, low key, editorial photo, above shot, flatlay",
+    "top view of beach sand at sunset, editorial photo, behance, above shot, flatlay",
+    "tulip on metallic silk, editorial photo, behance, above shot, flatlay, professional product photography",
+    "top view of beach sand, tropical flower, editorial photo, behance, above shot, flatlay",
+    "sandstone podium on rough sand, above shot, flatlay, behance, editorial photo",
+    "minimalistic limestone circular platform, cloudy overcast daylight, above shot, flatlay, editorial photo"
+]
+
+export const minimalisticPrompts = [
+    "white marble countertop and wall, editorial photo, behance, bokeh shot, closeup",
+    "stone tabletop, stucco wall, editorial photo, behance, bokeh shot, closeup",
+    "marble countertop, concrete wall, monochromatic, editorial photo, behance, bokeh shot, closeup",
+    "concrete countertop, smooth wall, editorial photo, behance, bokeh shot, closeup",
+    "modern marble interior minimalistic countertop, professional product photography, behance, editorial photo, bokeh shot",
+    "rough concrete countertop, textured surfaces, behance, editorial photo, bokeh shot",
+    "sandstone countertop, sandstone wall, professional product photography, behance, editorial photo, bokeh shot",
+    "rough white limestone, seaside blue sky bokeh background, professional product photography, behance, editorial photo, bokeh shot",
+    "matt metallic iridescent anodized pedestal, ethereal cloudy sky background, early morning light, editorial photo, behance, bokeh shot",
+    "marble pedestal, scenic cloudy sky above sea background, warm evening light, editorial photo, behance, bokeh shot",
+    "rough limestone pedestal, warm summer light, azure sea and beach in distant background, editorial photo, behance, bokeh shot",
+    "white marble platforms, editorial photo, behance, bokeh shot, closeup",
+    "stone tabletop, stucco wall, editorial photo, behance, bokeh shot, closeup",
+    "marble pedestal, scenic cloudy sky above sea background, warm evening light, editorial photo, behance, bokeh shot",
+    "marble and silk drapes, ethereal, pastel, morning light, editorial photo, behance, professional photography",
+    "modern marble interior minimalistic countertop, professional product photography, behance, editorial photo, bokeh shot",
+    "marble pedestal, scenic cloudy sky above sea background, warm evening light, editorial photo, behance, bokeh shot",
+    "modern marble interior minimalistic countertop, professional product photography, behance, editorial photo, bokeh shot",
+    "rough concrete countertop, textured surfaces, behance, editorial photo, bokeh shot",
+    "sandstone countertop, sandstone wall, professional product photography, behance, editorial photo, bokeh shot",
+    "marble countertop, silk curtains, monochromatic, editorial photo, behance, professional photography, bokeh shot",
+    "rough concrete countertop, velvet curtains, monochromatic, editorial photo, behance, professional photography, bokeh shot",
+]
+
+export const naturePrompts = [
+    "rough green stone in a lush foggy jungle, surrounded by blooming tiny flowers, professional product photography, behance, editorial photo",
+    "rough black stone on a meadow with a teal evening forest in the background, professional product photography, behance, editorial photo, bokeh shot",
+    "rough limestone in a foggy morning orchard, surrounded by blooming trees, sunlit, professional product photography, behance, bokeh shot, editorial photo",
+    "white limestone rocks and on beach, warm summer light, azure sky and sea background, editorial photo, behance, bokeh shot",
+    "white limestone rocks and tiny flowers, beach vibes, warm summer light, editorial photo, behance, bokeh shot",
+    "stones and plants, warm evening light, editorial photo, behance, bokeh shot",
+    "marble pedestal surrounded by rough rocks, cool blue hour evening light, editorial photo, behance, boke",
+    "marble countertop, ascetic interior, tree branch, blue hour evening light, ethereal, iridescent, editorial photo, behance, bokeh shot",
+    "marble pedestal, flowery branch, warm morning light, ethereal, iridescent, editorial photo, behance, bokeh shot",
+    "marble countertop, ascetic interior, tree branch, warm evening light, ethereal, iridescent, editorial photo, behance, bokeh shot",
+    "granite rocks in a sunny woods, warm morning light, editorial photo, behance, bokeh shot",
+]
+
+export const fabricBackgroundPrompts =  [
+    "crumpled linen, warm tones, sunlight aesthetic, editorial photo, behance, professional photography",
+    "silk drapes, ethereal, pastel, morning light, editorial photo, behance, professional photography",
+    "beach sand at sunset, editorial photo, behance, bokeh shot",
+    "limestone podium, background of linen waves, mediterranean, editorial photo, behance, professional photography, bokeh shot",
+    "waves of silk, ethereal, pastel, soft light, editorial photo, behance, bokeh shot",
+    "linen fabric surface, soft warm morning light, above shot, editorial photo, behance, bokeh shot",
+    "waves of linen, ethereal, pastel, blue hour, cool light, editorial photo, behance, bokeh shot",
+    "waves of velvet, ethereal, pastel, morning light, editorial photo, behance, bokeh shot",
+    "waves of silk, ethereal, pastel, soft light, editorial photo, behance, bokeh shot",
+]

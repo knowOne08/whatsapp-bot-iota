@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import axios from 'axios';
 // import fs from 'fs'
 import { app } from './server';
-import { beachPrompts, festivalPrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt';
+import { beachPrompts, fabricBackgroundPrompts, festivalPrompts, flatLaysPrompts, holidayPrompts, minimalisticPrompts, naturePrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt';
 dotenv.config();
 
 
@@ -131,9 +131,19 @@ Your enhanced images are ready! 🖼️✨ Thank you for using Snapcraft Bot. If
                 return solidColorPrompts[Math.floor(Math.random() * solidColorPrompts.length)];
             case '5':
                 return beachPrompts[Math.floor(Math.random() * beachPrompts.length)];
+            case '6':
+                return holidayPrompts[Math.floor(Math.random() * holidayPrompts.length)];
+            case '7':
+                return flatLaysPrompts[Math.floor(Math.random() * flatLaysPrompts.length)];
+            case '8':
+                return minimalisticPrompts[Math.floor(Math.random() * minimalisticPrompts.length)];
+            case '9':
+                return naturePrompts[Math.floor(Math.random() * naturePrompts.length)];
+            case '10':
+                return fabricBackgroundPrompts[Math.floor(Math.random() * fabricBackgroundPrompts.length)];
             default:
                 return 'Design a backdrop that enhances the allure of showcased clothing item';
-        }
+        }        
     }
     
     if(userLastMessage.body == undefined || msg.body.toLowerCase().includes('service')){
