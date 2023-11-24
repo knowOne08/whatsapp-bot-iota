@@ -4,9 +4,9 @@ import qrcode from "qrcode";
 import Replicate from 'replicate';
 import dotenv from 'dotenv';
 import axios from 'axios';
+// import fs from 'fs'
 import { app } from './server';
 import { beachPrompts, festivalPrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt';
-
 dotenv.config();
 
 
@@ -54,7 +54,7 @@ client.initialize();
 
 //To Serve Qr code
 app.listen(3002, () => {
-    console.log(`Server is running on port 3000`);
+    console.log(`Server is running on port 3002`);
 });
 
 client.on('message', async msg => {
@@ -75,6 +75,7 @@ const messageResponse = async (msg) => {
     
 Hello there! I'm Snapcraft, your AI-enhanced image bot. 🤖✨
 `;
+    const sendImageMsgMedia = MessageMedia.fromFilePath(`./src/assets/productEditImg${Math.floor(Math.random() * 3) + 1}.jpeg`);
     
     const sendImageMsg = 
 `📷 *Send Image*
@@ -107,9 +108,14 @@ Time to add some style! 🌟 Choose a theme for your enhanced image:
     
 Please enter the number of your preferred option:
 `;
-    
 
-        const downloadMedia = async (msg) =>{  
+const endMsg = 
+`🎉 **Congratulations!**
+
+Your enhanced images are ready! 🖼️✨ Thank you for using Snapcraft Bot. If you have any more requests or need further assistance, feel free to ask. Enjoy your enhanced images! 🌟
+`;
+
+    const downloadMedia = async (msg) =>{  
         return await msg.downloadMedia();
     }
 
@@ -131,8 +137,10 @@ Please enter the number of your preferred option:
     }
     
     if(userLastMessage.body == undefined || msg.body.toLowerCase().includes('service')){
-        client.sendMessage(chatId,greetingMsg)
-        client.sendMessage(chatId,sendImageMsg).then((res)=> botLastMessage = res)
+        await client.sendMessage(chatId,greetingMsg)
+        
+        client.sendMessage(chatId,sendImageMsgMedia,{caption:sendImageMsg}).then((res)=> botLastMessage = res)
+        // askImageMsg(msg)
     }
     else if((msg.type == 'image' && botLastMessage.body.includes("Image")) || msg.type == "image"){
         productImage = await downloadMedia(msg)
@@ -185,12 +193,14 @@ const createImage = async (image, msg, productName) => {
                 },
             }
         );
-
-        for (const imageUrl of output) {
-            const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-            const base64Image = Buffer.from(response.data, 'binary').toString('base64');
-            const image = new MessageMedia('image/png', base64Image)
-            msg.reply(image).then((res) => console.log(res))
+        // const output = ["https://replicate.delivery/pbxt/5RGzdE9OkAIxL5XJYzkYFsebGqQaKfWXRE3YQF2TIxcvh43RA/top.png","https://replicate.delivery/pbxt/GmJrlGOLQYaMA5AOB61libiSXgStBBth2M0GQGoC093bIe7IA/ad_inpaint_0.jpg"]
+        if(output.length){
+                for (const imageUrl of output.slice(1)) {
+                    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+                    const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+                    const image = new MessageMedia('image/png', base64Image)
+                    msg.reply(image).then((res) => console.log(res))
+                }
         }
     } catch (error) {
         console.log(error);
