@@ -177,11 +177,11 @@ const createImage = async (image, msg, productName) => {
             {
                 input: {
                     image_path: dataURI,
-                    prompt: `${productName || "Product"} + ${productTheme} photography, outdoor setting, natural lighting, close-up shot, multiple angles, maintain aspect ratio, maintain height, maintain shadow`,
+                    prompt: `${productName || "Product"} + ${productTheme || "photography, outdoor setting, natural lighting, close-up shot, multiple angles, maintain aspect ratio, maintain height, maintain shadow"} `,
                     // prompt: `${productName || "Product" }`,
                     negative_prompt: "illustration, 3d, sepia, painting, cartoons, sketch, (worst quality:2),no distracting elements in the background",
                     image_num: 1,
-                    api_key: process.env.OPENAI_API
+                    // api_key: process.env.OPENAI_API
                 },
             }
         );
