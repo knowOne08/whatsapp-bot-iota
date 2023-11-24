@@ -7,7 +7,8 @@ import axios from 'axios';
 // import fs from 'fs'
 import { app } from './server';
 import { beachPrompts, fabricBackgroundPrompts, festivalPrompts, flatLaysPrompts, holidayPrompts, minimalisticPrompts, naturePrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt';
-import { askNameMsg, greetingMsg, sendImageMsg,creditsOverMsg, endMsg,processingMsg,themeMsg } from './botMessages';
+import { askNameMsg, greetingMsg, sendImageMsg,creditsOverMsg, endMsg,processingMsg,themeMsg, errorMsg } from './botMessages';
+import { discordLog, downloadMedia } from './utils';
 dotenv.config();
 
 
@@ -68,15 +69,12 @@ let botLastMessage = {};
 let productName = '';
 let productImage = '';
 let productTheme = '';
-
+let greetingMessageSent = false;
+let hasCredits = false;
 const messageResponse = async (msg) => {
     const user = msg.author;
     let chatId = msg.from;
     const sendImageMsgMedia = MessageMedia.fromFilePath(`./src/assets/productEditImg${Math.floor(Math.random() * 3) + 1}.jpeg`);
-
-    const downloadMedia = async (msg) =>{  
-        return await msg.downloadMedia();
-    }
 
     const getRandomTheme = (productTheme) => {
         switch (productTheme) {
@@ -105,10 +103,10 @@ const messageResponse = async (msg) => {
         }        
     }
     
-    if(userLastMessage.body == undefined || msg.body.toLowerCase().includes('service')){
+    if((userLastMessage.body == undefined || msg.body.toLowerCase().includes('service')) && msg.type != 'image'){
         await client.sendMessage(chatId,greetingMsg)
-        
         client.sendMessage(chatId,sendImageMsgMedia,{caption:sendImageMsg}).then((res)=> botLastMessage = res)
+        greetingMessageSent = true
         // askImageMsg(msg)
     }
     else if((msg.type == 'image' && botLastMessage.body?.includes("Image")) || msg.type == "image"){
@@ -120,18 +118,16 @@ const messageResponse = async (msg) => {
         client.sendMessage(chatId,themeMsg).then((res)=> botLastMessage = res)
     } 
     else if(msg.type == 'chat' && botLastMessage.body?.includes('theme')){
-        console.log(msg.type);
         productTheme = msg.body
 
         productTheme = getRandomTheme(productTheme)
     
-        // console.log(botLastMessage.body)
         createImage(productImage, msg,productName,productTheme,chatId);
         console.log(productImage,productName,productTheme)
         client.sendMessage(chatId,processingMsg).then((res)=> botLastMessage = res)
     } 
     else {
-        client.sendMessage(chatId, "Some problem occured restarting")
+        client.sendMessage(chatId, errorMsg)
         client.sendMessage(chatId, sendImageMsg).then((res) => botLastMessage = res)
     }
 
@@ -148,14 +144,12 @@ const createImage = async (image, msg, productName,chatId) => {
         const base64Image = image.data.toString("base64");
         const mimeType = image.mimetype
         const dataURI = `data:${mimeType};base64,${base64Image}`;
-        console.log(productTheme)
         const output = await replicate.run(
             "logerzhu/ad-inpaint:b1c17d148455c1fda435ababe9ab1e03bc0d917cc3cf4251916f22c45c83c7df",
             {
                 input: {
                     image_path: dataURI,
                     prompt: `${productName || "Product"} + ${productTheme || "photography, outdoor setting, natural lighting, close-up shot, multiple angles, maintain aspect ratio, maintain height, maintain shadow"} `,
-                    // prompt: `${productName || "Product" }`,
                     negative_prompt: "illustration, 3d, sepia, painting, cartoons, sketch, (worst quality:2),no distracting elements in the background",
                     image_num: 1,
                     // api_key: process.env.OPENAI_API
@@ -164,19 +158,27 @@ const createImage = async (image, msg, productName,chatId) => {
         );
 
 
-        // const output = ["https://replicate.delivery/pbxt/5RGzdE9OkAIxL5XJYzkYFsebGqQaKfWXRE3YQF2TIxcvh43RA/top.png","https://replicate.delivery/pbxt/GmJrlGOLQYaMA5AOB61libiSXgStBBth2M0GQGoC093bIe7IA/ad_inpaint_0.jpg"]
+        // const output = ["","https://cdn.discordapp.com/attachments/1143734201598886138/1173121912826765343/replicate-prediction-cko7q43buswlj45x754gwp7rxa-2.jpg?ex=656c086b&is=6559936b&hm=dd2e325ba812ddf52358f006ac6072cf9b2fec0c0b28604e5ddcb169e8b57551&"]
         if(output.length){
             for (const imageUrl of output.slice(1)) {
                 const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
                 const base64Image = Buffer.from(response.data, 'binary').toString('base64');
                 const image = new MessageMedia('image/png', base64Image)
-                msg.reply(image).then((res) => console.log(res))
+                msg.reply(image)
             }
-            client.sendMessage(chatId,endMsg)
+            await client.sendMessage(msg.from,endMsg).then((res) => discordLog(res,hasCredits,greetingMessageSent))
+            // discordLog(msg,false)
         }
+        if(!output){
+           hasCredits = true
+        }
+    //    console.log(output,"Hereeeeeeeeeeeeeee")
     } catch (error) {
-        console.log(error);
-        msg.reply(creditsOverMsg)
-    }
+        // console.log(error);
+        // msg.reply(creditsOverMsg)
+        // console.log(chatId)
+        client.sendMessage(msg.from,creditsOverMsg).then((res) => discordLog(res,hasCredits,greetingMessageSent))
+        // discordLog(msg,true,greetingMessageSent)
+    } 
 
 }
