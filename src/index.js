@@ -115,7 +115,7 @@ const messageResponse = async (msg) => {
         productImage = await downloadMedia(msg)
         client.sendMessage(chatId,askNameMsg).then((res) => botLastMessage = res);
     }
-    else if(userLastMessage.type == 'image' && botLastMessage.body.includes('name')){
+    else if(userLastMessage.type == 'image' && botLastMessage.body?.includes('name')){
         productName = msg.body
         client.sendMessage(chatId,themeMsg).then((res)=> botLastMessage = res)
     } 
