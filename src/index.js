@@ -7,6 +7,7 @@ import axios from 'axios';
 // import fs from 'fs'
 import { app } from './server';
 import { beachPrompts, fabricBackgroundPrompts, festivalPrompts, flatLaysPrompts, holidayPrompts, minimalisticPrompts, naturePrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt';
+import { askNameMsg, greetingMsg, sendImageMsg,themeMsg,creditsOverMsg, endMsg,processingMsg,themeMsg } from './botMessages';
 dotenv.config();
 
 
@@ -67,53 +68,11 @@ let botLastMessage = {};
 let productName = '';
 let productImage = '';
 let productTheme = '';
+
 const messageResponse = async (msg) => {
     const user = msg.author;
     let chatId = msg.from;
-    const greetingMsg =
-`🌟 *Welcome to Snapcraft Bot!* 🌟
-    
-Hello there! I'm Snapcraft, your AI-enhanced image bot. 🤖✨
-`;
     const sendImageMsgMedia = MessageMedia.fromFilePath(`./src/assets/productEditImg${Math.floor(Math.random() * 3) + 1}.jpeg`);
-    
-    const sendImageMsg = 
-`📷 *Send Image*
-    
-Ready to enhance your image! 🚀 Please send the image you'd like me to work on, and let the magic begin! ✨
-`;
-    
-    const askNameMsg = 
-`🤖 *Send Product Name*
-    
-Before we start, could you please provide the name of the product or describe what you're looking for? It will help personalize the enhancements. 🎨✨
-`;
-    
-    const processingMsg = 
-`⌛ *Processing Image*
-    
-Great choice! Sit tight while I work on enhancing your image. 🛠️✨ This might take a moment, but the results will be worth it! 🌈
-`;
-    
-    const themeMsg = 
-`🎨 *Choose Theme*
-    
-Time to add some style! 🌟 Choose a theme for your enhanced image:
-    
-1. Festival 🎉
-2. Vintage 📽️
-3. Street City 🏙️
-4. Solid Color 🌈
-5. Beach 🏖️
-    
-Please enter the number of your preferred option:
-`;
-
-const endMsg = 
-`🎉 **Congratulations!**
-
-Your enhanced images are ready! 🖼️✨ Thank you for using Snapcraft Bot. If you have any more requests or need further assistance, feel free to ask. Enjoy your enhanced images! 🌟
-`;
 
     const downloadMedia = async (msg) =>{  
         return await msg.downloadMedia();
@@ -167,7 +126,7 @@ Your enhanced images are ready! 🖼️✨ Thank you for using Snapcraft Bot. If
         productTheme = getRandomTheme(productTheme)
     
         // console.log(botLastMessage.body)
-        createImage(productImage, msg,productName,productTheme);
+        createImage(productImage, msg,productName,productTheme,chatId);
         console.log(productImage,productName,productTheme)
         client.sendMessage(chatId,processingMsg).then((res)=> botLastMessage = res)
     } 
@@ -184,7 +143,7 @@ const replicate = new Replicate({
     auth: process.env.REPLICATE_API_TOKEN,
 });
 
-const createImage = async (image, msg, productName) => {
+const createImage = async (image, msg, productName,chatId) => {
     try {
         const base64Image = image.data.toString("base64");
         const mimeType = image.mimetype
@@ -203,18 +162,21 @@ const createImage = async (image, msg, productName) => {
                 },
             }
         );
+
+
         // const output = ["https://replicate.delivery/pbxt/5RGzdE9OkAIxL5XJYzkYFsebGqQaKfWXRE3YQF2TIxcvh43RA/top.png","https://replicate.delivery/pbxt/GmJrlGOLQYaMA5AOB61libiSXgStBBth2M0GQGoC093bIe7IA/ad_inpaint_0.jpg"]
         if(output.length){
-                for (const imageUrl of output.slice(1)) {
-                    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-                    const base64Image = Buffer.from(response.data, 'binary').toString('base64');
-                    const image = new MessageMedia('image/png', base64Image)
-                    msg.reply(image).then((res) => console.log(res))
-                }
+            for (const imageUrl of output.slice(1)) {
+                const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+                const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+                const image = new MessageMedia('image/png', base64Image)
+                msg.reply(image).then((res) => console.log(res))
+            }
+            client.sendMessage(chatId,endMsg)
         }
     } catch (error) {
         console.log(error);
-        msg.reply("There has been a problem")
+        msg.reply(creditsOverMsg)
     }
 
 }
