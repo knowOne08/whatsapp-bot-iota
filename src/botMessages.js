@@ -1,5 +1,5 @@
 export const creditsOverMsg = `
-🚫 **Snapcraft Free Credits Over**
+🚫 *Snapcraft Free Credits Over*
 
 Uh-oh! It looks like your free credits for Snapcraft have run out. 😕 If you'd like to continue using our services, you can purchase additional credits. Feel free to reach out if you have any questions or need assistance. Thank you for using Snapcraft! 🌟
 `;
@@ -48,7 +48,7 @@ Please enter the number of your preferred option:
 `;
 
 export const endMsg = `
-🎉 **Congratulations!**
+🎉 *Congratulations!*
 
 Your enhanced images are ready! 🖼️✨ Thank you for using Snapcraft Bot. If you have any more requests or need further assistance, feel free to ask. Enjoy your enhanced images! 🌟
 `;
