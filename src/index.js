@@ -119,7 +119,7 @@ const messageResponse = async (msg) => {
         productName = msg.body
         client.sendMessage(chatId,themeMsg).then((res)=> botLastMessage = res)
     } 
-    else if(msg.type == 'chat' && botLastMessage.body.includes('theme')){
+    else if(msg.type == 'chat' && botLastMessage.body?.includes('theme')){
         console.log(msg.type);
         productTheme = msg.body
 
