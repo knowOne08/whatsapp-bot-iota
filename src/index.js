@@ -103,7 +103,7 @@ const messageResponse = async (msg) => {
         }        
     }
     
-    if((userLastMessage.body == undefined || msg.body.toLowerCase().includes('service')) && msg.type != 'image'){
+    if((userLastMessage?.body == undefined || userLastMessage?.body == undefined || msg.body.toLowerCase().includes('service')) && msg.type != 'image'){
         await client.sendMessage(chatId,greetingMsg)
         client.sendMessage(chatId,sendImageMsgMedia,{caption:sendImageMsg}).then((res)=> botLastMessage = res)
         greetingMessageSent = true
