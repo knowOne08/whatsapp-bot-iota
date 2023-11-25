@@ -1,7 +1,7 @@
 import axios from "axios"
 import { qrUrl } from "."
 import dotenv from "dotenv"
-import  {Attachment, AttachmentBuilder, EmbedBuilder} from "discord.js"
+import  {Attachment, AttachmentBuilder, EmbedBuilder, WebhookClient} from "discord.js"
 dotenv.config()
 export const serverQrCode = (req,res) => {
     if(qrUrl){
@@ -31,35 +31,21 @@ export const discordLog = async (msg,hasCredits,greetingMessageSent) => {
 const sendLog = async (messages) => {
     let fields =  [];
     let attachments = [];
-    // console.log(messages)
-    // const logImage = async (message) => {
-        
-    //     let base64Image = '';
-    //     try {
-    //         const res = await downloadMedia(message);
 
-    //         base64Image = res.data;
-    //         // console.log("Base64 Image:", base64Image);
-    //         const data = base64Image.split(',');
-    //         console.log(data)
-    //         return Buffer.from(data[1], 'base64');  
-    //     } catch (error) {
-    //         console.error("Error downloading media:", error);
-    //     }
-    //     return base64image;
-    // };
-
-    // const embed = new ()
     messages.map(async (message)=> {
         if(message.type == 'image' && !message.fromMe){
-            const res = await downloadMedia(message)
-            const b64image = `data:${res.mimeType};base64,${res.data}`
-            
-            const data = b64image.split(',')[1]; 
-            const buf = new Buffer.from(data, 'base64');
-            const file = new AttachmentBuilder(buf,{name: "img.jpg"});
-            console.log(file)
-            attachments.push(file)
+            try {
+                const res = await downloadMedia(message);
+                const data = res.data.toString("base64")
+                // const data = '/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEABsbGxscGx4hIR4qLSgtKj04MzM4PV1CR0JHQl2NWGdYWGdYjX2Xe3N7l33gsJycsOD/2c7Z//////////////8BGxsbGxwbHiEhHiotKC0qPTgzMzg9XUJHQkdCXY1YZ1hYZ1iNfZd7c3uXfeCwnJyw4P/Zztn////////////////CABEIADwAIQMBIgACEQEDEQH/xAAsAAADAQEBAAAAAAAAAAAAAAAAAwUEAgEBAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAADEzU6XDzUWTTaDKU1pRWpwk9DFMMqUNEkLBKKntU09757j02i//8QAIRAAAgICAgIDAQAAAAAAAAAAAAECAxETBBIxQRAhUWH/2gAIAQEAAT8Aguy6zQqH6NY6zWKEZYaIVtGpP0SpRqZTFEK00aidZrKiHMm5NQj9Ijy5ppTj5HcmbTkPRXkhyeucoV+xxWGkh8g3I53M2tRj4RG1dMCtNjO/9EJHgjCU84NcvwQhlbamsfH/xAAUEQEAAAAAAAAAAAAAAAAAAAAw/9oACAECAQE/AE//xAAUEQEAAAAAAAAAAAAAAAAAAAAw/9oACAEDAQE/AE//2Q=='
+                const buf = Buffer.from(data, 'base64');
+                // const file = new AttachmentBuilder().setFile(buf).setName("img.png");
+                const file = new AttachmentBuilder('./src/assets/productEditImg1.jpeg').setName("productEditImg1.jpeg");
+                console.log(file)
+                attachments.push(file);
+            } catch (error) {
+                console.error('Error downloading media:', error);
+            }
         } else {
             fields.push({
                 name: `\n\n${message.fromMe ? 'Bot' : message.from}:\n`,
@@ -69,26 +55,37 @@ const sendLog = async (messages) => {
     })
     const embed = new EmbedBuilder()
         .addFields(fields)
-        .setImage('attachment://img.jpg')
+        // .setImage('attachment://img.png')
+        .setImage('attachment://productEditImg1.jpeg')
+        
+        
     
     const log = {
-                
-        "content": 'Snapcraft bot log',
+        // "content": 'Snapcraft bot log',
         "embeds" : [embed],
         "files": attachments
     }
 
-    const response = await axios.post(process.env.WEBHOOK_URL,log,{
-        headers: {
-            'Content-Type': 'application/json', 
-        }
-    });
+    const webhookClient = new WebhookClient({ url: process.env.WEBHOOK_URL });
+
+    webhookClient.send({
+        embeds: [embed],
+        files: attachments
+    }).then((res)=>{
+        console.log(res)
+    })
+    // const response = await axios.post(process.env.WEBHOOK_URL,log,{
+    //     headers: {
+    //         // 'Content-Type': 'application/json', 
+    //         'Content-Type': 'multipart/form-data', 
+    //     }
+    // });
     
-    if (response.status === 204) {
-        console.log('Webhook message sent successfully');
-    } else {
-        console.error('Failed to send webhook message:', response.status, response.statusText);
-    }
+    // if (response.status === 204) {
+    //     console.log('Webhook message sent successfully');
+    // } else {
+    //     console.error('Failed to send webhook message:', response.status, response.statusText);
+    // }
     
 }
 
