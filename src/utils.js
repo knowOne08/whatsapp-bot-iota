@@ -1,4 +1,3 @@
-import schedule from 'node-schedule';
 import fs from 'fs';
 import path from 'path';
 import { qrUrl } from "."
