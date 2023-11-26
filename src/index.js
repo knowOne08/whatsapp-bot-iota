@@ -8,7 +8,7 @@ import axios from 'axios';
 import { app } from './server';
 import { beachPrompts, fabricBackgroundPrompts, festivalPrompts, flatLaysPrompts, holidayPrompts, minimalisticPrompts, naturePrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt';
 import { askNameMsg, greetingMsg, sendImageMsg,creditsOverMsg, endMsg,processingMsg,themeMsg, errorMsg } from './botMessages';
-import { discordLog, downloadMedia, readDataFromFile, storeJson, writeDataToFile } from './utils';
+import { discordLog, downloadMedia, readDataFromFile, writeDataToFile } from './utils';
 dotenv.config();
 
 

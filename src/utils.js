@@ -121,10 +121,10 @@ export const deleteFile = () => {
 
 
 // Define the rule for scheduling midnight every day
-const localDataClearRule = new schedule.RecurrenceRule();
-localDataClearRule.tz = 'Asia/Kolkata'
-localDataClearRule.hour = 23;
-localDataClearRule.minute = 59;
+// const localDataClearRule = new schedule.RecurrenceRule();
+// localDataClearRule.tz = 'Asia/Kolkata'
+// localDataClearRule.hour = 23;
+// localDataClearRule.minute = 59;
 
 
 //EXTRA CODE
