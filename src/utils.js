@@ -13,10 +13,10 @@ export const serverQrCode = (req,res) => {
     }
 }
 
-export const discordLog = async (msg,hasCredits,greetingMessageSent) => {
-    const chat = await msg.getChat()
+export const discordLog = async (chat,hasCredits,greetingMessageSent) => {
+    // const chat = await msg.getChat()
     const messages = await chat.fetchMessages()
-    messages.push(msg)
+    // messages.push(msg)
 
     greetingMessageSent ?
         hasCredits 
@@ -59,12 +59,6 @@ const sendLog = async (messages) => {
         .setImage('attachment://productEditImg1.jpeg')
         
         
-    
-    const log = {
-        // "content": 'Snapcraft bot log',
-        "embeds" : [embed],
-        "files": attachments
-    }
 
     const webhookClient = new WebhookClient({ url: process.env.WEBHOOK_URL });
 
@@ -74,18 +68,7 @@ const sendLog = async (messages) => {
     }).then((res)=>{
         console.log(res)
     })
-    // const response = await axios.post(process.env.WEBHOOK_URL,log,{
-    //     headers: {
-    //         // 'Content-Type': 'application/json', 
-    //         'Content-Type': 'multipart/form-data', 
-    //     }
-    // });
-    
-    // if (response.status === 204) {
-    //     console.log('Webhook message sent successfully');
-    // } else {
-    //     console.error('Failed to send webhook message:', response.status, response.statusText);
-    // }
+ 
     
 }
 
