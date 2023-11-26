@@ -241,10 +241,10 @@ const messageResponse = async (msg) => {
             } else {
                 if (!messages[i]?.fromMe) {
                     if (count == 0) {
-                        productTheme = messages[i].body
+                        productTheme = messages[i]?.body
                         productTheme = getRandomTheme(productTheme)
                     } else if (count == 1) {
-                        productName = messages[i].body
+                        productName = messages[i]?.body
                     } else if (count == 2) {
                         productImage = await downloadMedia(messages[i])
                     }
