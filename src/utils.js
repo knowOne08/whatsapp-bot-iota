@@ -1,7 +1,8 @@
-import axios from "axios"
+import fs from 'fs';
+import path from 'path';
 import { qrUrl } from "."
 import dotenv from "dotenv"
-import  {Attachment, AttachmentBuilder, EmbedBuilder, WebhookClient} from "discord.js"
+import  { AttachmentBuilder, EmbedBuilder, WebhookClient} from "discord.js"
 dotenv.config()
 export const serverQrCode = (req,res) => {
     if(qrUrl){
@@ -76,3 +77,27 @@ const sendLog = async (messages) => {
 export const downloadMedia = async (msg) =>{  
     return await msg.downloadMedia();
 }
+
+
+
+export const storeJson = (user, imageNo) => {
+  const today = new Date();
+  const dateStr = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
+  const filename = `data_${dateStr}.json`;
+
+  const __dirname = path.dirname(__filename);
+  const __filename = new URL(import.meta.url).pathname;
+  const filePath = path.join(__dirname, filename);
+
+  const data = { user, imageNo };
+
+  const jsonData = JSON.stringify(data, null, 2); // Adds indentation for readability
+
+  fs.writeFileSync(filePath, jsonData);
+
+  console.log(`Data stored in ${filename}`);
+};
+
+
+

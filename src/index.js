@@ -8,7 +8,7 @@ import axios from 'axios';
 import { app } from './server';
 import { beachPrompts, fabricBackgroundPrompts, festivalPrompts, flatLaysPrompts, holidayPrompts, minimalisticPrompts, naturePrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt';
 import { askNameMsg, greetingMsg, sendImageMsg,creditsOverMsg, endMsg,processingMsg,themeMsg, errorMsg } from './botMessages';
-import { discordLog, downloadMedia } from './utils';
+import { discordLog, downloadMedia, storeJson } from './utils';
 dotenv.config();
 
 
@@ -60,6 +60,10 @@ app.listen(3002, () => {
 });
 
 client.on('message', async msg => {
+    const user = msg.from;
+    const imageNo = 123;
+
+    storeJson(user, imageNo);
     messageResponse(msg);
 });
 
@@ -127,7 +131,7 @@ const messageResponse = async (msg) => {
 
     for (let i = messages.length - 1; messages.length >= 0; i--) {
         // console.log("here")
-        if (!messages[i].fromMe) {
+        if (!messages[i]?.fromMe) {
             userLastMessage = messages[i]
             break;
         }
@@ -198,7 +202,7 @@ const messageResponse = async (msg) => {
             if (count == 3) {
                 break
             } else {
-                if (!messages[i].fromMe) {
+                if (!messages[i]?.fromMe) {
                     if (count == 0) {
                         productTheme = messages[i].body
                         productTheme = getRandomTheme(productTheme)
