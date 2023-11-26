@@ -36,7 +36,7 @@ Great choice! Sit tight while I work on enhancing your image. 🛠️✨
 This might take a moment, but the results will be worth it! 🌈
 `;
 
-export const themeMsg = 
+export const themeMsgOrigianl = 
 `🎨 *Choose Theme*
 
 Time to add some style! 🌟 Choose a theme for your enhanced image:
@@ -51,6 +51,19 @@ Time to add some style! 🌟 Choose a theme for your enhanced image:
 8. Minimalistic 🍃
 9. Nature 🌳🌺
 10. Fabric Background 🧵
+
+Please enter the number of your preferred option:
+`;
+export const themeMsg = 
+`🎨 *Choose Theme*
+
+Time to add some style! 🌟 Choose a theme for your enhanced image:
+
+1. Festival 🎉
+2. Vintage 📽️
+3. Beach 🏖️
+4. Holiday ✨🎄
+5. Nature 🌳🌺
 
 Please enter the number of your preferred option:
 `;

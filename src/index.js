@@ -193,22 +193,22 @@ const messageResponse = async (msg) => {
                 return festivalPrompts[Math.floor(Math.random() * festivalPrompts.length)];
             case '2':
                 return vintageClassicPrompts[Math.floor(Math.random() * vintageClassicPrompts.length)];
+            // case '3':
+            //     return streetCityPrompts[Math.floor(Math.random() * streetCityPrompts.length)];
+            // case '4':
+            //     return solidColorPrompts[Math.floor(Math.random() * solidColorPrompts.length)];
             case '3':
-                return streetCityPrompts[Math.floor(Math.random() * streetCityPrompts.length)];
-            case '4':
-                return solidColorPrompts[Math.floor(Math.random() * solidColorPrompts.length)];
-            case '5':
                 return beachPrompts[Math.floor(Math.random() * beachPrompts.length)];
-            case '6':
+            case '4':
                 return holidayPrompts[Math.floor(Math.random() * holidayPrompts.length)];
-            case '7':
-                return flatLaysPrompts[Math.floor(Math.random() * flatLaysPrompts.length)];
-            case '8':
-                return minimalisticPrompts[Math.floor(Math.random() * minimalisticPrompts.length)];
-            case '9':
+            // case '7':
+            //     return flatLaysPrompts[Math.floor(Math.random() * flatLaysPrompts.length)];
+            // case '8':
+            //     return minimalisticPrompts[Math.floor(Math.random() * minimalisticPrompts.length)];
+            case '5':
                 return naturePrompts[Math.floor(Math.random() * naturePrompts.length)];
-            case '10':
-                return fabricBackgroundPrompts[Math.floor(Math.random() * fabricBackgroundPrompts.length)];
+            // case '10':
+            //     return fabricBackgroundPrompts[Math.floor(Math.random() * fabricBackgroundPrompts.length)];
             default:
                 return 'Design a backdrop that enhances the allure of showcased clothing item';
         }
