@@ -12,7 +12,8 @@ export const greetingMsg =
 `🌟 *Welcome to Snapcraft Bot!* 🌟
 
 Hello there! I'm Snapcraft, your AI-enhanced image bot. 🤖✨
-`;
+
+Write *service* to start the bot`;
 
 export const sendImageMsg = 
 `📷 *Send Image*
