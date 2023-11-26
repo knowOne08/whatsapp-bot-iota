@@ -8,7 +8,7 @@ import axios from 'axios';
 import { app } from './server';
 import { beachPrompts, fabricBackgroundPrompts, festivalPrompts, flatLaysPrompts, holidayPrompts, minimalisticPrompts, naturePrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt';
 import { askNameMsg, greetingMsg, sendImageMsg,creditsOverMsg, endMsg,processingMsg,themeMsg, errorMsg } from './botMessages';
-import { discordLog, downloadMedia } from './utils';
+import { discordLog, downloadMedia, readDataFromFile, storeJson, writeDataToFile } from './utils';
 dotenv.config();
 
 
@@ -76,7 +76,7 @@ const replicate = new Replicate({
 });
 
 
-const createImage = async (image, productName, productTheme, chat) => {
+const createImage = async (image, productName, productTheme, chat,jsonData,userIndex,fileName) => {
     try {
         const base64Image = image.data.toString("base64");
         const mimeType = image.mimetype
@@ -101,6 +101,8 @@ const createImage = async (image, productName, productTheme, chat) => {
                 await chat.sendMessage(image)
             }
             await chat.sendMessage(endMsg).then((res) => discordLog(res,hasCredits,greetingMessageSent))
+            jsonData.data[userIndex].imageCounter += 1;
+            writeDataToFile(fileName, jsonData);
         }
 
         if(!output){
@@ -109,24 +111,63 @@ const createImage = async (image, productName, productTheme, chat) => {
     } catch (error) {
         console.error({ error })
 
-        await chat.sendMessage(creditsOverMsg)
-        discordLog(chat,hasCredits,greetingMessageSent)
+        await chat.sendMessage(creditsOverMsg).then((res)=> discordLog(res,hasCredits,greetingMessageSent))
+        
     }
 
 }
+const isPremiumUser = (userName,premiumJsonData) =>{
+    let premiumUserIndex = premiumJsonData.data.findIndex((entry) => entry.userName == userName);
+    console.log(premiumUserIndex)
+    return premiumUserIndex 
+}
+const createImageAndUpdateCounter = async (productImage, productName, productTheme, chat) => {
+    
+    const contact = await chat.getContact()
+    const userName =  contact.id._serialized
+    const normalfileName = `./src/data/free_${new Date().toISOString().split('T')[0]}.json`;
+    const normalJsonData = await readDataFromFile(normalfileName);
+    const premiumfileName = `./src/data/premium_users.json`
+    const premiumJsonData = await readDataFromFile(premiumfileName);
+    const premiumUserIndex = isPremiumUser(userName,premiumJsonData)
+    
+    if(premiumUserIndex != -1){
+        if(premiumJsonData.data[premiumUserIndex].imageCounter <= 500)  {
+            // console.log({premiumJsonData})
+            await createImage(productImage, productName, productTheme, chat, premiumJsonData,premiumUserIndex,premiumfileName);
+        } else {
+            await chat.sendMessage(creditsOverMsg).then((res)=> discordLog(res,hasCredits,greetingMessageSent))
+        }
+    } else {
+        let normalUserIndex = normalJsonData.data.findIndex((entry) => entry.userName == userName);
+        if (normalUserIndex === -1) {
+            normalJsonData.data.push({ 
+                "userName": userName, 
+                "imageCounter": 0 
+            });
+            writeDataToFile(normalfileName, normalJsonData);
+            normalUserIndex = normalUserIndex == -1 ? 0 : normalUserIndex
+        }
+        else if (normalJsonData.data[normalUserIndex].imageCounter < 5) {
+            await createImage(productImage, productName, productTheme, chat, normalJsonData ,normalUserIndex,normalfileName);
+        } else {
+            chat.sendMessage(creditsOverMsg).then((res) => discordLog(res,hasCredits,greetingMessageSent))
+            // console.log(`Image counter reached the limit for ${normalJsonData.data[normalUserIndex].userName}`);
+        }
+    }
 
+
+};
 
 const messageResponse = async (msg) => {
     const user = msg.author;
     let chatId = msg.from;
     const chat = await msg.getChat()
     const messages = await chat.fetchMessages()
-    // console.log(messages)
     let userLastMessage = {};
     let botLastMessage = {};
 
     for (let i = messages.length - 1; messages.length >= 0; i--) {
-        // console.log("here")
         if (!messages[i]?.fromMe) {
             userLastMessage = messages[i]
             break;
@@ -200,22 +241,22 @@ const messageResponse = async (msg) => {
             } else {
                 if (!messages[i]?.fromMe) {
                     if (count == 0) {
-                        productTheme = messages[i].body
+                        productTheme = messages[i]?.body
                         productTheme = getRandomTheme(productTheme)
                     } else if (count == 1) {
-                        productName = messages[i].body
+                        productName = messages[i]?.body
                     } else if (count == 2) {
-                        console.log(messages[i])
                         productImage = await downloadMedia(messages[i])
                     }
                     count++;
                 }
-                console.log(i, count)
             }
         }
 
-        console.log({ productImage, productName, productTheme })
-        await createImage(productImage, productName, productTheme, chat)
+        // console.log({ productImage, productName, productTheme })
+        // await createImage(productImage, productName, productTheme, chat)
+        await createImageAndUpdateCounter(productImage, productName, productTheme, chat);
+
     }
     else {
         let flag = false;

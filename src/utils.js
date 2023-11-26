@@ -1,7 +1,9 @@
-import axios from "axios"
+import schedule from 'node-schedule';
+import fs from 'fs';
+import path from 'path';
 import { qrUrl } from "."
 import dotenv from "dotenv"
-import  {Attachment, AttachmentBuilder, EmbedBuilder, WebhookClient} from "discord.js"
+import  { AttachmentBuilder, EmbedBuilder, WebhookClient} from "discord.js"
 dotenv.config()
 export const serverQrCode = (req,res) => {
     if(qrUrl){
@@ -13,10 +15,11 @@ export const serverQrCode = (req,res) => {
     }
 }
 
-export const discordLog = async (chat,hasCredits,greetingMessageSent) => {
-    // const chat = await msg.getChat()
+export const discordLog = async (msg,hasCredits,greetingMessageSent) => {
+    
+    const chat = await msg.getChat()
     const messages = await chat.fetchMessages()
-    // messages.push(msg)
+    messages.push(msg)
 
     greetingMessageSent ?
         hasCredits 
@@ -41,7 +44,7 @@ const sendLog = async (messages) => {
                 const buf = Buffer.from(data, 'base64');
                 // const file = new AttachmentBuilder().setFile(buf).setName("img.png");
                 const file = new AttachmentBuilder('./src/assets/productEditImg1.jpeg').setName("productEditImg1.jpeg");
-                console.log(file)
+                // console.log(file)
                 attachments.push(file);
             } catch (error) {
                 console.error('Error downloading media:', error);
@@ -66,7 +69,7 @@ const sendLog = async (messages) => {
         embeds: [embed],
         files: attachments
     }).then((res)=>{
-        console.log(res)
+        // console.log(res)
     })
  
     
@@ -76,3 +79,56 @@ const sendLog = async (messages) => {
 export const downloadMedia = async (msg) =>{  
     return await msg.downloadMedia();
 }
+
+
+
+
+// Function to create a new JSON file for the day
+export const createNewFileAndWrite = (fileName,data) => {
+    fs.writeFileSync(fileName, data);
+};
+
+
+
+// Function to read data from the JSON file
+export const readDataFromFile = (fileName) => {
+    try {
+        const data = fs.readFileSync(fileName);
+        return JSON.parse(data);
+    } catch (err) {
+
+        console.error(`Error reading data from file: ${err.message}`);
+        return { "data": [] };
+    }
+};
+// Function to write data to the JSON file
+export const writeDataToFile = (fileName, jsonData) => {
+    try {
+        fs.writeFileSync(fileName, JSON.stringify(jsonData, null, 2));
+    } catch (err) {
+        createNewFile(fileName,jsonData);
+        console.error(`Error writing data to file: ${err.message}`);
+    }
+};
+export const deleteFile = () => {
+    const fileName = `./src/data/free_${new Date().toISOString().split('T')[0]}.json`
+    try {
+        fs.unlinkSync(fileName);
+        console.log(`File ${fileName} deleted successfully.`);
+    } catch (err) {
+        console.error(`Error deleting file ${fileName}: ${err.message}`);
+    }
+};
+
+
+// Define the rule for scheduling midnight every day
+const localDataClearRule = new schedule.RecurrenceRule();
+localDataClearRule.tz = 'Asia/Kolkata'
+localDataClearRule.hour = 23;
+localDataClearRule.minute = 59;
+
+
+//EXTRA CODE
+// const midnightJob = schedule.scheduleJob(localDataClearRule, deleteFile);
+
+
