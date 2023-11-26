@@ -127,14 +127,14 @@ const messageResponse = async (msg) => {
 
     for (let i = messages.length - 1; messages.length >= 0; i--) {
         // console.log("here")
-        if (!messages[i].fromMe) {
+        if (!messages[i]?.fromMe) {
             userLastMessage = messages[i]
             break;
         }
     }
     for (let i = messages.length - 1; messages.length >= 0; i--) {
         // console.log("here")
-        if (messages[i].fromMe) {
+        if (messages[i]?.fromMe) {
             botLastMessage = messages[i]
             break;
         }
@@ -198,7 +198,7 @@ const messageResponse = async (msg) => {
             if (count == 3) {
                 break
             } else {
-                if (!messages[i].fromMe) {
+                if (!messages[i]?.fromMe) {
                     if (count == 0) {
                         productTheme = messages[i].body
                         productTheme = getRandomTheme(productTheme)
