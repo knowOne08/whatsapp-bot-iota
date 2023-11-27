@@ -28,7 +28,7 @@ Hello there! I'm Snapcraft, your AI-enhanced image bot. 🤖✨
 📷 *Send Image*
 
 Ready to enhance your image! 🚀 Please send the image you'd like me to work on, and let the magic begin! ✨
-;`
+`;
 
 export const askNameMsg = 
 `🤖 *Image Description*

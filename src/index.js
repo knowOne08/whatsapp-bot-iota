@@ -8,7 +8,7 @@ import axios from 'axios';
 import { app } from './server';
 import { beachPrompts, fabricBackgroundPrompts, festivalPrompts, flatLaysPrompts, holidayPrompts, minimalisticPrompts, naturePrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt';
 import { askNameMsg, greetingMsg, sendImageMsg,creditsOverMsg, endMsg,processingMsg,themeMsg, errorMsg } from './botMessages';
-import { discordLog, downloadMedia, readDataFromFile, writeDataToFile } from './utils';
+import { discordLog, downloadMedia, readDataFromFile, webhookClient, writeDataToFile } from './utils';
 dotenv.config();
 
 
@@ -51,6 +51,10 @@ client.on('qr', async (qr) => {
 client.on('ready', () => {
     console.log('Client is ready!');
 });
+
+client.on('disconnected', () => {
+    webhookClient.send({content: 'client Close'});
+})
 
 client.initialize();
 
@@ -218,7 +222,7 @@ const messageResponse = async (msg) => {
         // productImage = await downloadMedia(msg)
         await client.sendMessage(chatId, askNameMsg)
     }
-    else if (botLastMessage.body?.toLowerCase().includes('name')) {
+    else if (botLastMessage.body?.toLowerCase().includes('description')) {
         await client.sendMessage(chatId, themeMsg)
     }
     else if (msg.type == 'chat' && botLastMessage.body?.includes('theme')) {

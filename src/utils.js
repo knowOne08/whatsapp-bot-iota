@@ -31,6 +31,8 @@ export const discordLog = async (msg,hasCredits,greetingMessageSent) => {
         :   sendLog(messages.slice(-7))
 }
 
+export const webhookClient = new WebhookClient({ url: process.env.WEBHOOK_URL });
+
 const sendLog = async (messages) => {
     let fields =  [];
     let attachments = [];
@@ -63,15 +65,12 @@ const sendLog = async (messages) => {
         
         
 
-    const webhookClient = new WebhookClient({ url: process.env.WEBHOOK_URL });
-
     webhookClient.send({
         embeds: [embed],
         files: attachments
     }).then((res)=>{
         // console.log(res)
     })
- 
     
 }
 
