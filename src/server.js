@@ -17,10 +17,6 @@ app.get('/new_file_make', async (req,res)=>{
   const fileName = `./src/data/free_${new Date().toISOString().split('T')[0]}.json`;
   createNewFileAndWrite(fileName, { "data": [] })
 })
-app.get('/new_premium_file_make', async (req,res)=>{
-  const fileName = `./src/data/free_${new Date().toISOString().split('T')[0]}.json`;
-  createNewFileAndWrite(fileName, { "data": [] })
-})
 
 app.get('/wake_up_call', (req, res) => {
   res.send("I am awake")
