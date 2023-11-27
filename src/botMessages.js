@@ -1,5 +1,5 @@
 export const creditsOverMsg = `
-🚫 **Snapcraft Free Credits Over** 🚫
+🚫 *Snapcraft Free Credits Over* 🚫
 
 Uh-oh! It looks like your free credits for Snapcraft have run out. 😕 If you'd like to continue using our services, you can purchase additional credits at:
 
@@ -21,10 +21,14 @@ Hello there! I'm Snapcraft, your AI-enhanced image bot. 🤖✨
 Write *service* to start the bot`;
 
 export const sendImageMsg = 
-`📷 *Send Image*
+`🌟 *Welcome to Snapcraft Bot!* 🌟
+
+Hello there! I'm Snapcraft, your AI-enhanced image bot. 🤖✨
+
+📷 *Send Image*
 
 Ready to enhance your image! 🚀 Please send the image you'd like me to work on, and let the magic begin! ✨
-`;
+;`
 
 export const askNameMsg = 
 `🤖 *Send Product Name*

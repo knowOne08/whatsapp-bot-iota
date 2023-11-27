@@ -3,6 +3,7 @@ import path from 'path';
 import { qrUrl } from "./index.js"
 import dotenv from "dotenv"
 import  { AttachmentBuilder, EmbedBuilder, WebhookClient} from "discord.js"
+import { scheduleJob, RecurrenceRule } from 'node-schedule';
 dotenv.config()
 export const serverQrCode = (req,res) => {
     if(qrUrl){
@@ -92,20 +93,26 @@ export const createNewFileAndWrite = (fileName,data) => {
 // Function to read data from the JSON file
 export const readDataFromFile = (fileName) => {
     try {
-        const data = fs.readFileSync(fileName);
-        return JSON.parse(data);
+        if(fs.existsSync(fileName)){
+            const data = fs.readFileSync(fileName);
+            return JSON.parse(data);
+        }else{
+            return { "data": [] };
+        }
     } catch (err) {
 
         console.error(`Error reading data from file: ${err.message}`);
-        return { "data": [] };
     }
 };
 // Function to write data to the JSON file
 export const writeDataToFile = (fileName, jsonData) => {
     try {
-        fs.writeFileSync(fileName, JSON.stringify(jsonData, null, 2));
+        if(fs.existsSync(fileName)){
+            fs.writeFileSync(fileName, JSON.stringify(jsonData, null, 2));
+        }else{
+            createNewFileAndWrite(fileName, JSON.stringify(jsonData, null, 2));
+        }
     } catch (err) {
-        createNewFile(fileName,jsonData);
         console.error(`Error writing data to file: ${err.message}`);
     }
 };
@@ -121,13 +128,16 @@ export const deleteFile = () => {
 
 
 // Define the rule for scheduling midnight every day
-// const localDataClearRule = new schedule.RecurrenceRule();
-// localDataClearRule.tz = 'Asia/Kolkata'
-// localDataClearRule.hour = 23;
-// localDataClearRule.minute = 59;
+const localDataClearRule = new RecurrenceRule();
+localDataClearRule.tz = 'Asia/Kolkata'
+localDataClearRule.hour = 0;
+localDataClearRule.minute = 1;
 
 
-//EXTRA CODE
-// const midnightJob = schedule.scheduleJob(localDataClearRule, deleteFile);
+scheduleJob(localDataClearRule, ()=>{
+    console.log('bane 6')
+    const fileName = `./src/data/free_${new Date().toISOString().split('T')[0]}.json`;
+    createNewFileAndWrite(fileName, JSON.stringify({ "data": [] }))  
+});
 
 
