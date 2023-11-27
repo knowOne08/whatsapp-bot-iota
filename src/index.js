@@ -256,7 +256,7 @@ const messageResponse = async (msg) => {
             if (msg.body.toLowerCase().includes(starter)) flag = true
         })
         if (flag) {
-            await client.sendMessage(chatId, greetingMsg)
+            await client.sendMessage(chatId, sendImageMsg)
         } else {
             await client.sendMessage(chatId, errorMsg)
             await client.sendMessage(chatId, sendImageMsg)
