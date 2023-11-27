@@ -1,5 +1,5 @@
 import express from 'express';
-import { serverQrCode } from './utils';
+import { createNewFileAndWrite, serverQrCode } from './utils';
 import { client } from '.';
 
 
@@ -13,6 +13,12 @@ app.get('/', (req, res) => {
 //To server qr code
 app.get('/qr', serverQrCode);
 
+app.get('/new_file_make', async (req,res)=>{
+  const fileName = `./src/data/free_${new Date().toISOString().split('T')[0]}.json`;
+  createNewFileAndWrite(fileName, { "data": [] })
+})
+
 app.get('/wake_up_call', (req, res) => {
   res.send("I am awake")
 })
+

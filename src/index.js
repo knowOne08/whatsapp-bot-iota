@@ -207,10 +207,9 @@ const messageResponse = async (msg) => {
         }
     }
 
-    console.log(botLastMessage.body)
+    // console.log(botLastMessage.body)
 
     if (msg.type != 'image' && !botLastMessage.body?.includes("Image") && !botLastMessage.body?.toLowerCase().includes('name') && !botLastMessage.body?.includes('theme')) {
-        await client.sendMessage(chatId, greetingMsg)
         await client.sendMessage(chatId, sendImageMsgMedia, { caption: sendImageMsg })
         greetingMessageSent = true
         // askImageMsg(msg)
