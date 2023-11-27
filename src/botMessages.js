@@ -14,7 +14,7 @@ Thank you for using Snapcraft! 🌟
 
 
 export const greetingMsg = 
-`🌟 *Welcome to Snapcraft Bot!* 🌟
+`🌟 *Welcome to Snapcraft!* 🌟
 
 Hello there! I'm Snapcraft, your AI-enhanced image bot. 🤖✨
 
