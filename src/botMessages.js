@@ -83,6 +83,9 @@ export const endMsg =
 Your enhanced images are ready! 🖼️✨
 
 Thank you for using Snapcraft Bot. If you have any more requests or need further assistance, feel free to ask. Enjoy your enhanced images! 🌟
+
+Can you Upvote our product in product hunt?
+https://www.producthunt.com/posts/snapcraft-3
 `;
 
 export const errorMsg =
