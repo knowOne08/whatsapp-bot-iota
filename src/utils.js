@@ -1,6 +1,5 @@
 import fs from 'fs';
-import path from 'path';
-import { qrUrl } from "."
+import { qrUrl } from "./index.js"
 import dotenv from "dotenv"
 import  { AttachmentBuilder, EmbedBuilder, WebhookClient} from "discord.js"
 import { scheduleJob, RecurrenceRule } from 'node-schedule';
