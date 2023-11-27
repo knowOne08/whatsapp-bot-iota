@@ -28,6 +28,8 @@ app.post('/add_premium', async (req, res) => {
     "imageCounter": 0
   });
   writeDataToFile('./src/data/premium_users.json', premiumJsonData);
+
+  res.send('ho gaya bhai');
 })
 
 app.get('/wake_up_call', (req, res) => {
