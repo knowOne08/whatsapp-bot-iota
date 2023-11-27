@@ -18,6 +18,17 @@ app.get('/new_file_make', async (req,res)=>{
   createNewFileAndWrite(fileName, { "data": [] })
 })
 
+app.post('/add_premium', async (req, res) => {
+  const number = `91${req.body.number}@c.us`
+  const premiumfileName = `./src/data/premium_users.json`
+  const premiumJsonData = await readDataFromFile(premiumfileName);
+
+  premiumJsonData.data.push({
+    "userName": number, 
+    "imageCounter": 0
+  });
+  writeDataToFile('./src/data/premium_users.json', premiumJsonData);
+})
 
 app.get('/wake_up_call', (req, res) => {
   res.send("I am awake")
