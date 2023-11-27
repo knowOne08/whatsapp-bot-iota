@@ -5,10 +5,10 @@ import Replicate from 'replicate';
 import dotenv from 'dotenv';
 import axios from 'axios';
 // import fs from 'fs'
-import { app } from './server.js';
-import { beachPrompts, fabricBackgroundPrompts, festivalPrompts, flatLaysPrompts, holidayPrompts, minimalisticPrompts, naturePrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt.js';
-import { askNameMsg, greetingMsg, sendImageMsg,creditsOverMsg, endMsg,processingMsg,themeMsg, errorMsg } from './botMessages.js';
-import { discordLog, downloadMedia, readDataFromFile, writeDataToFile } from './utils.js';
+import { app } from './server';
+import { beachPrompts, fabricBackgroundPrompts, festivalPrompts, flatLaysPrompts, holidayPrompts, minimalisticPrompts, naturePrompts, solidColorPrompts, streetCityPrompts, vintageClassicPrompts } from './prompt';
+import { askNameMsg, greetingMsg, sendImageMsg,creditsOverMsg, endMsg,processingMsg,themeMsg, errorMsg } from './botMessages';
+import { discordLog, downloadMedia, readDataFromFile, writeDataToFile } from './utils';
 dotenv.config();
 
 
