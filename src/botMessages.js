@@ -31,11 +31,11 @@ Ready to enhance your image! 🚀 Please send the image you'd like me to work on
 ;`
 
 export const askNameMsg = 
-`🤖 *Send Product Name*
+`🤖 *Image Description*
 
-Before we start, could you please provide the name of the product or describe what you're looking for?
+Before we start, could you please provide a short description of the image or let me know what you're looking for?
 
-It will help personalize the enhancements. 🎨✨
+This will help personalize the enhancements. 🎨✨
 `;
 
 export const processingMsg = 
