@@ -1,9 +1,11 @@
 export const creditsOverMsg = `
-🚫 *Snapcraft Free Credits Over* 🚫
+🚫 **Snapcraft Free Credits Over** 🚫
 
 Uh-oh! It looks like your free credits for Snapcraft have run out. 😕 If you'd like to continue using our services, you can purchase additional credits at:
 
 *https://snapcraft.in/pricing*
+
+Don't worry! You'll automatically receive 5 free credits after 24 hours.
 
 Feel free to reach out if you have any questions or need assistance.
 

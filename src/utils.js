@@ -26,7 +26,7 @@ export const discordLog = async (msg,hasCredits,greetingMessageSent) => {
         :   sendLog(messages.slice(-10))
     
     :   hasCredits 
-        ?   sendLog(messages.slice(-9))
+        ?   sendLog(messages.slice(-8))
         :   sendLog(messages.slice(-7))
 }
 

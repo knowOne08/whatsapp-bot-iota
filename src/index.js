@@ -94,13 +94,13 @@ const createImage = async (image, productName, productTheme, chat,jsonData,userI
             }
         );
         if(output.length){
+            await chat.sendMessage(endMsg).then((res) => discordLog(res,hasCredits,greetingMessageSent))
             for (const imageUrl of output.slice(1)) {
                 const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
                 const base64Image = Buffer.from(response.data, 'binary').toString('base64');
                 const image = new MessageMedia('image/png', base64Image)
                 await chat.sendMessage(image)
             }
-            await chat.sendMessage(endMsg).then((res) => discordLog(res,hasCredits,greetingMessageSent))
             jsonData.data[userIndex].imageCounter += 1;
             writeDataToFile(fileName, jsonData);
         }
@@ -164,15 +164,8 @@ const messageResponse = async (msg) => {
     let chatId = msg.from;
     const chat = await msg.getChat()
     const messages = await chat.fetchMessages()
-    let userLastMessage = {};
     let botLastMessage = {};
 
-    for (let i = messages.length - 1; messages.length >= 0; i--) {
-        if (!messages[i]?.fromMe) {
-            userLastMessage = messages[i]
-            break;
-        }
-    }
     for (let i = messages.length - 1; messages.length >= 0; i--) {
         // console.log("here")
         if (messages[i]?.fromMe) {
@@ -214,10 +207,10 @@ const messageResponse = async (msg) => {
         }
     }
 
+    console.log(botLastMessage.body)
 
-    if (msg.body.toLowerCase().includes('service') && msg.type != 'image') {
-        // await client.sendMessage(chatId,greetingMsg)
-        // client.sendMessage(chatId,sendImageMsgMedia,{caption:sendImageMsg}).then((res)=> botLastMessage = res)
+    if (msg.type != 'image' && !botLastMessage.body?.includes("Image") && !botLastMessage.body?.toLowerCase().includes('name') && !botLastMessage.body?.includes('theme')) {
+        await client.sendMessage(chatId, greetingMsg)
         await client.sendMessage(chatId, sendImageMsgMedia, { caption: sendImageMsg })
         greetingMessageSent = true
         // askImageMsg(msg)
