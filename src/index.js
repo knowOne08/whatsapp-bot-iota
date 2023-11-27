@@ -50,6 +50,10 @@ client.on('qr', async (qr) => {
 
 client.on('ready', () => {
     console.log('Client is ready!');
+
+    setInterval(()=>{
+        client.pupPage.click('#pane-side')
+    }, 5000)
 });
 
 client.on('disconnected', () => {
